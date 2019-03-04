@@ -1,0 +1,95 @@
+---
+title: "rcr Demonstration"
+author: "R. Chlumsky"
+date: "March 4, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## rcr Demonstration
+
+A demonstration of the **rcr** package using the built-in sample data is provided.
+
+
+
+Read in the sample package cross-section data.
+
+```{r}
+library(rcr)
+
+# read in geometry for two sections
+df <- rcr::topo_sections
+dd_4 <- df[df$xsection == 4,]
+dd_5 <- df[df$xsection == 5,]
+dd_6 <- df[df$xsection == 6,]
+```
+
+Setup the boundary conditions and rcr options object.
+
+```{r}
+Q <- 9.59  # cms
+bc_4 <- bc(station=4,reach="Reach1_Name",location="Downstream",bctype="Normal Depth",bcvalue=0.012)
+ropt <- rcr_options() # use default rcr_options values
+
+```
+
+Assign the geometries for three cross-sections.
+
+```{r}
+xs_4 <- xsection(riverstation="4",station=0,xx=dd_4$xx,zz=dd_4$zz,Manning=dd_4$nn,
+                 Manning_LOB=0.05,Manning_Main=0.035,Manning_ROB=0.05,
+                 lbs_xx=5.13,rbs_xx=11.12,
+                 ds_length_LOB=230,ds_length_Main=230,ds_length_ROB=230,contraction_coeff=0.1,expansion_coeff=0.3)
+
+xs_5 <- xsection(riverstation="5",station=58,xx=dd_5$xx,zz=dd_5$zz,Manning=dd_5$nn,
+                 Manning_LOB=0.05,Manning_Main=0.035,Manning_ROB=0.05,
+                 lbs_xx=4.52,rbs_xx=13.36,
+                 ds_length_LOB=60,ds_length_Main=58,ds_length_ROB=64,contraction_coeff=0.1,expansion_coeff=0.3)
+
+xs_6 <- xsection(riverstation="6",station=80,xx=dd_6$xx,zz=dd_6$zz,Manning=dd_6$nn,
+                 Manning_LOB=0.045,Manning_Main=0.035,Manning_ROB=0.05,
+                 lbs_xx=1.7,rbs_xx=8.93,
+                 ds_length_LOB=22,ds_length_Main=22,ds_length_ROB=28,contraction_coeff=0.1,expansion_coeff=0.3)
+
+```
+
+Create the geometries from xsection object, and calculate the hydraulic outputs.
+
+```{r}
+
+# create new geometry under variable g02 from two cross-sections
+g02 <- geom$new(xsectionList=list(xs_4,xs_5,xs_6),geomname="Existing Condition 20190121")
+
+# # update g02 with new xsectionList (add a cross-section)
+# g02$xsectionList <- list(xs_4,xs_5,xs_4)
+#
+# # alternate way to update xsectionList in g02
+# g02$field("xsectionList",list(xs_4,xs_5))
+#
+# g02$xsectionList <- modifyList(g02$xsectionList, list(xs_4))
+
+
+
+# check order of g02 items, sort by g02$xsectionList[[1]]$station
+g02$xsectionList[[1]]$station
+
+
+
+# run hydraulic analysis and check results
+hydraulic_output <- rcr::compute_profile(geometry=g02,Q=9.59,boundary_conditions=bc_4,options=ropt)
+hydraulic_output
+```
+Change the parameters in the ropt object, and re-run the calculation.
+
+```{r}
+ropt$silent_cp <- TRUE # silence the compute_profile output
+ropt$silent_nd <- TRUE # silence the normal_depth output
+ropt$dx <- 0.05        # change the interpolated horizontal chainage to 5cm, more coarse resolution
+
+hydraulic_output <- rcr::compute_profile(geometry=g02,Q=9.59,boundary_conditions=bc_4,options=ropt)
+hydraulic_output
+```
+
