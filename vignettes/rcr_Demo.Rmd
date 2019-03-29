@@ -63,20 +63,8 @@ Create the geometries from xsection object, and calculate the hydraulic outputs.
 # create new geometry under variable g02 from two cross-sections
 g02 <- geom$new(xsectionList=list(xs_4,xs_5,xs_6),geomname="Existing Condition 20190121")
 
-# # update g02 with new xsectionList (add a cross-section)
-# g02$xsectionList <- list(xs_4,xs_5,xs_4)
-#
-# # alternate way to update xsectionList in g02
-# g02$field("xsectionList",list(xs_4,xs_5))
-#
-# g02$xsectionList <- modifyList(g02$xsectionList, list(xs_4))
-
-
-
 # check order of g02 items, sort by g02$xsectionList[[1]]$station
 g02$xsectionList[[1]]$station
-
-
 
 # run hydraulic analysis and check results
 hydraulic_output <- rcr::compute_profile(geometry=g02,Q=9.59,boundary_conditions=bc_4,options=ropt)
@@ -91,5 +79,17 @@ ropt$dx <- 0.05        # change the interpolated horizontal chainage to 5cm, mor
 
 hydraulic_output <- rcr::compute_profile(geometry=g02,Q=9.59,boundary_conditions=bc_4,options=ropt)
 hydraulic_output
+```
+
+Use some of the other tools, such as calculating the flow area or the bankfull flow.
+```{r}
+# estimate bankfull flow for xsection #4; default wsl is lowest defined bank height
+bankfull_flow(xs=xs_4,S=0.001,wsl=NA,ropt)
+
+# or for a presribed water surface level
+bankfull_flow(xs=xs_4,wsl=176.0,S=0.001,ropt)
+
+# calculate flow areas for specific segments
+flow_area(xs=xs_4,wsl=176,stns=c(3,5,7,10),ropt)
 ```
 

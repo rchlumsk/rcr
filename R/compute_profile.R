@@ -5,13 +5,15 @@
 #' **Currently assumes subcritical regime throughout the profile, will be updated in future versions.**
 #'
 #' @param geometry geometry object of class geom
+#' @param Q single flow value for computation (cms)
 #' @param boundary_conditions boundary conditions for the most downstream cross-section of object bc
 #' @param method method used in calculation as "subcritical", "supercritical", or "mixed" (currently only "subcritical" method is supported)
 #' @param options object of class rcr_options with options and constants for hydraulic calculations
 #'
 #' @return \item{hydraulic_output}{Table of computed hydraulic parameters by xsection}
+#' @seealso \code{\link{compute_flow_profiles}} to calculate flow profiles for multiple flow values
 #'
-#' @keywords compute profile HEC-RAS
+#' @keywords compute profile
 #' @examples
 #'
 #' @export compute_profile

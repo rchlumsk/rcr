@@ -10,6 +10,8 @@ compute_profile(geometry, Q, boundary_conditions, method = "subcritical",
 \arguments{
 \item{geometry}{geometry object of class geom}
 
+\item{Q}{single flow value for computation (cms)}
+
 \item{boundary_conditions}{boundary conditions for the most downstream cross-section of object bc}
 
 \item{method}{method used in calculation as "subcritical", "supercritical", or "mixed" (currently only "subcritical" method is supported)}
@@ -28,6 +30,8 @@ Calculates the water profile using the standard step method.
 \examples{
 
 }
-\keyword{HEC-RAS}
+\seealso{
+\code{\link{compute_flow_profiles}} to calculate flow profiles for multiple flow values
+}
 \keyword{compute}
 \keyword{profile}

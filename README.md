@@ -7,6 +7,13 @@ rcr is an R package to calculate a basic backwater profile for open channels usi
 
 The package is currently configured for backwater calculations with the subcritical assumption in open channels only, supercritical and mixed regimes, and hydrualic structures, will be added in future versions.
 
+Helpful functions in the package include:
+
+-   *compute\_flow\_profiles* computes flow profiles for a given geometry for a vector of flow values
+-   *bankfull\_estimator* applies Manning's equation to estimate flow for a given cross-section, slope and water surface level
+-   *flow\_area* calculates the flow area for a set of stations in a cross-section
+-   *normal\_depth* calculates the normal depth of a cross-section
+
 Installation
 ------------
 
