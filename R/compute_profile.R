@@ -256,7 +256,11 @@ compute_profile <- function(geometry,Q,boundary_conditions,method="subcritical",
 
       next_WSL <- mm[i-1,]$WSL + mm[i-1,]$Velocity_head + mm[i,]$Head_Loss - mm[i,]$Velocity_head
 
-      if ( abs(next_WSL - mm[i,]$WSL) > options$tolerance_cp) {
+      # check for divergence in next_WSL (potential dx resolution issue)
+      if (is.na(next_WSL) | is.nan(next_WSL)) { stop("Algorithm diverged, consider reducing dx parameter in rcr_options argument.")}
+
+
+      if (abs(next_WSL - mm[i,]$WSL) > options$tolerance_cp) {
 
         # print(sprintf("out of tolerance %s, %.4f assumed %.4f computed",j,mm[i,]$WSL,next_WSL))
 

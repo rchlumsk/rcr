@@ -27,7 +27,7 @@ flow_area <- function(xs,wsl,stns=NA,options) {
     warning("wsl provided is less than the minimum cross-sectional elevation. All flow areas will be zero.")
   }
 
-  if (is.na(stns)) {
+  if (is.na(stns[1])) {
     stns <- c(xs$lbs_xx,xs$rbs_xx)
   } else {
     if (!(is.numeric(stns)) | length(stns) < 1) {
@@ -64,6 +64,6 @@ flow_area <- function(xs,wsl,stns=NA,options) {
     mm[i,]$area <- sum(xx.df[which(xx.df$temp>0 & xx.df$xx > mm[i,]$start & xx.df$xx < mm[i,]$end),]$temp)*options$dx
   }
 
-  print("Successfully completed flow areas. :-)")
+  # print("Successfully completed flow areas. :-)")
   return("flow_areas"=mm)
 }

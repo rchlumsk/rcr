@@ -1,8 +1,11 @@
 ---
-title: "rcr Demonstration"
+title: "River Computations in R (rcr-package) Demonstration"
 author: "R. Chlumsky"
-date: "March 4, 2019"
-output: html_document
+date: "May 2019"
+output: pdf_document
+urlcolor: blue
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -12,8 +15,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ## rcr Demonstration
 
 A demonstration of the **rcr** package using the built-in sample data is provided.
-
-
 
 Read in the sample package cross-section data.
 
@@ -30,7 +31,7 @@ dd_6 <- df[df$xsection == 6,]
 Setup the boundary conditions and rcr options object.
 
 ```{r}
-Q <- 9.59  # cms
+Q <- 9.5  # cms
 bc_4 <- bc(station=4,reach="Reach1_Name",location="Downstream",bctype="Normal Depth",bcvalue=0.012)
 ropt <- rcr_options() # use default rcr_options values
 
@@ -59,7 +60,6 @@ xs_6 <- xsection(riverstation="6",station=80,xx=dd_6$xx,zz=dd_6$zz,Manning=dd_6$
 Create the geometries from xsection object, and calculate the hydraulic outputs.
 
 ```{r}
-
 # create new geometry under variable g02 from two cross-sections
 g02 <- geom$new(xsectionList=list(xs_4,xs_5,xs_6),geomname="Existing Condition 20190121")
 
@@ -68,17 +68,18 @@ g02$xsectionList[[1]]$station
 
 # run hydraulic analysis and check results
 hydraulic_output <- rcr::compute_profile(geometry=g02,Q=9.59,boundary_conditions=bc_4,options=ropt)
-hydraulic_output
+names(hydraulic_output) # calculated fields
+head(hydraulic_output[,1:8]) # truncated output for demo pdf
 ```
 Change the parameters in the ropt object, and re-run the calculation.
 
 ```{r}
 ropt$silent_cp <- TRUE # silence the compute_profile output
 ropt$silent_nd <- TRUE # silence the normal_depth output
-ropt$dx <- 0.05        # change the interpolated horizontal chainage to 5cm, more coarse resolution
+ropt$dx <- 0.01        # change the interpolated horizontal chainage to 5cm, more coarse resolution
 
 hydraulic_output <- rcr::compute_profile(geometry=g02,Q=9.59,boundary_conditions=bc_4,options=ropt)
-hydraulic_output
+head(hydraulic_output[,1:8]) # truncated output for demo pdf
 ```
 
 Use some of the other tools, such as calculating the flow area or the bankfull flow.
@@ -91,5 +92,18 @@ bankfull_flow(xs=xs_4,wsl=176.0,S=0.001,ropt)
 
 # calculate flow areas for specific segments
 flow_area(xs=xs_4,wsl=176,stns=c(3,5,7,10),ropt)
+```
+
+Modify the geometry with a list an additional cross-section.
+```{r}
+num_xsections <- length(g02$xsectionList)
+g02$xsectionList[[(num_xsections+1)]] <- xs_6 # add one item more to list
+g02$xsectionList[[4]]$riverstation <- "7"
+```
+
+Run multiple flow profiles with new geometry (use wrapper function compute_flow_profiles).
+```{r}
+hydraulic_outputs <- compute_flow_profiles(geometry=g02,flows=seq(5,20,5),boundary_conditions=bc_4,options=ropt)
+head(hydraulic_outputs[,1:8]) # truncated output for demo pdf
 ```
 
