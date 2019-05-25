@@ -105,13 +105,16 @@ setValidity("geom", validgeom)
 #' @field location description of the boundary condition location as either "Downstream", "Upstream"
 #' @field bctype the type of boundary condition applied as "Normal Depth" (only supported type in current version)
 #' @field bcvalue the value supplied with the boundary condition, currently the slope for normal depth computation
+#' @field init_WSL the initial WSL value passed to boundary condition, used in normal depth calculation
 bc <- setRefClass("bc",
-                  field=list(riverstation="character",station="numeric",reach="character",location="character",bctype="character",bcvalue="numeric"),
+                  field=list(riverstation="character",station="numeric",reach="character",location="character",
+                             bctype="character",bcvalue="numeric",init_WSL="numeric"),
                   method = list(initialize =
-                                  function(..., riverstation=as.character(station),station=NA,reach="",location="Downstream",bctype="Normal Depth",bcvalue=0.001)
+                                  function(..., riverstation=as.character(station),station=NA,reach="",location="Downstream",
+                                           bctype="Normal Depth",bcvalue=0.001,init_WSL=-99)
                                   {
                                     callSuper(..., riverstation = riverstation, station = station, reach=reach, location=location,
-                                              bctype=bctype, bcvalue=bcvalue)
+                                              bctype=bctype, bcvalue=bcvalue,init_WSL=init_WSL)
                                   })
 )
 

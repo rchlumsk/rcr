@@ -5,6 +5,7 @@
 #' @param xs cross-section of object class xsection
 #' @param Q flow value through cross-section (m3/s)
 #' @param S bed slope in cross-section, typically supplied as part of a boundary condition
+#' @param init_WSL initial water surface level provided to initialize calculation
 #' @param options object of class rcr_options with options and constants for hydraulic calculations
 #'
 #' @return \item{WSL}{Water surface elevation}
@@ -19,7 +20,7 @@
 #' @export normal_depth
 
 
-normal_depth <- function(xs,Q,S,options) {
+normal_depth <- function(xs,Q,S,init_WSL=NA,options) {
 
   if (class(xs)[1] != "xsection") {
     stop("xs must be of class xsection.")
@@ -50,7 +51,15 @@ normal_depth <- function(xs,Q,S,options) {
 
   mm$Flow <- Q
   mm[i,]$Min_Elev <- min(xs$zz)
-  mm[i,]$WSL <- mm[i,]$Min_Elev + 1 # initial point, not sure what is a better starting point
+
+
+  if (is.na(init_WSL)) {
+    mm[i,]$WSL <- mm[i,]$Min_Elev + 1 # initial point, not sure what is a better starting point
+  } else {
+    # print("Initializing normal depth with initial WSL.")
+    # print(init_WSL)
+    mm[i,]$WSL <- init_WSL
+  }
 
 
   for (j in 1:(options$iteration_limit_nd)) {
@@ -92,7 +101,6 @@ normal_depth <- function(xs,Q,S,options) {
 
     mm[i,]$Manning_Composite <- (sum(mm[i,]$WetPerimeter_LOB*xs$Manning_LOB^1.5,mm[i,]$WetPerimeter_Main*xs$Manning_Main^1.5,mm[i,]$WetPerimeter_ROB*xs$Manning_ROB^1.5) /
                                    mm[i,]$WetPerimeter)^(2/3)
-
 
     RHS <- (1/mm[i,]$Manning_Composite)*mm[i,]$Area*mm[i,]$HRadius^(2/3)*S^(1/2)
 

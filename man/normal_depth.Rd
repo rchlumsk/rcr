@@ -4,7 +4,7 @@
 \alias{normal_depth}
 \title{Normal Depth Calculation}
 \usage{
-normal_depth(xs, Q, S, options)
+normal_depth(xs, Q, S, init_WSL = NA, options)
 }
 \arguments{
 \item{xs}{cross-section of object class xsection}
@@ -12,6 +12,8 @@ normal_depth(xs, Q, S, options)
 \item{Q}{flow value through cross-section (m3/s)}
 
 \item{S}{bed slope in cross-section, typically supplied as part of a boundary condition}
+
+\item{init_WSL}{initial water surface level provided to initialize calculation}
 
 \item{options}{object of class rcr_options with options and constants for hydraulic calculations}
 }

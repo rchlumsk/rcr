@@ -55,11 +55,11 @@ compute_profile <- function(geometry,Q,boundary_conditions,method="subcritical",
   if (class(boundary_conditions)[1] != "bc") {
     stop("boundary_conditions must be of type bc")
   }
-  if (boundary_conditions$bctype != "Normal Depth") {
-    stop("Boundary condition must be of type 'Normal Depth'.")
+  if (boundary_conditions$bctype != "Normal Depth" & boundary_conditions$bctype != "Set Level") {
+    stop("Boundary condition must be of type 'Normal Depth' or of type 'Set Level'.")
   }
   if (is.na(boundary_conditions$bcvalue) | boundary_conditions$bcvalue <= 0) {
-    stop("Boundary condition value must be slope of value greater than 0.")
+    stop("Boundary condition value must be of value greater than 0.")
   }
 
 
@@ -101,7 +101,25 @@ compute_profile <- function(geometry,Q,boundary_conditions,method="subcritical",
 
   mm$Flow <- Q
   mm[i,]$Min_Elev <- min(geometry$xsectionList[[i]]$zz)
-  mm[i,]$WSL <- rcr::normal_depth(geometry$xsectionList[[i]], mm[i,]$Flow, boundary_conditions$bcvalue,options = options) # assume boundary condition as normal depth
+
+  if (boundary_conditions$bctype == "Normal Depth") {
+    if (boundary_conditions$init_WSL == -99) {
+      mm[i,]$WSL <- rcr::normal_depth(xs=geometry$xsectionList[[i]], Q=mm[i,]$Flow,
+                                      S=boundary_conditions$bcvalue,
+                                      options = options)
+    } else {
+      mm[i,]$WSL <- rcr::normal_depth(xs=geometry$xsectionList[[i]], Q=mm[i,]$Flow,
+                                      S=boundary_conditions$bcvalue,
+                                      init_WSL=boundary_conditions$init_WSL,
+                                      options = options) # assume boundary condition as normal depth
+    }
+
+  } else if (boundary_conditions$bctype == "Set Level") {
+    mm[i,]$WSL <- boundary_conditions$bcvalue
+  } else {
+    stop("Error in boundary condition input type")
+  }
+
   mm[i,]$Depth <- mm[i,]$WSL - mm[i,]$Min_Elev
 
   ## interpolate series (for computational purposes)

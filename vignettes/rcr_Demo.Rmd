@@ -92,6 +92,9 @@ bankfull_flow(xs=xs_4,wsl=176.0,S=0.001,ropt)
 
 # calculate flow areas for specific segments
 flow_area(xs=xs_4,wsl=176,stns=c(3,5,7,10),ropt)
+
+# calculate normal depth for a given cross-section
+normal_depth(xs_4,Q,bc_4$bcvalue, init_WSL=NA, ropt)
 ```
 
 Modify the geometry with a list an additional cross-section.

@@ -25,6 +25,8 @@ cross-section in the model is supported.
 \item{\code{bctype}}{the type of boundary condition applied as "Normal Depth" (only supported type in current version)}
 
 \item{\code{bcvalue}}{the value supplied with the boundary condition, currently the slope for normal depth computation}
+
+\item{\code{init_WSL}}{the initial WSL value passed to boundary condition, used in normal depth calculation}
 }}
 
 
