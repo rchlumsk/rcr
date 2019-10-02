@@ -1,5 +1,6 @@
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![license](https://img.shields.io/badge/license-GPL3-lightgrey.svg)](https://choosealicense.com/)
+[![DOI](https://zenodo.org/badge/173801188.svg)](https://zenodo.org/badge/latestdoi/173801188)
 
 rcr
 ===
