@@ -27,7 +27,7 @@ Calculates the normal depth for a given cross-section using the Manning's equati
 
 }
 \seealso{
-\code{\link{bankfull_estimator}} to estimate the flow through the cross section using Manning's equation
+\code{\link{bankfull_flow}} to estimate the flow through the cross section using Manning's equation
 
 \code{\link{flow_area}} to calculate the flow area in cross-section for given segments
 

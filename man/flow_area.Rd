@@ -28,7 +28,7 @@ Calculates the flow area for a set of specified areas within the cross-section.
 
 }
 \seealso{
-\code{\link{bankfull_estimator}} to estimate the flow through the cross section using Manning's equation
+\code{\link{bankfull_flow}} to estimate the flow through the cross section using Manning's equation
 }
 \keyword{area}
 \keyword{compute}

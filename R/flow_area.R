@@ -10,7 +10,7 @@
 #' @param options object of class rcr_options with options and constants for hydraulic calculations
 #'
 #' @return \item{flow_areas}{Table of computed cross-sectional flow area, m2}
-#' @seealso \code{\link{bankfull_estimator}} to estimate the flow through the cross section using Manning's equation
+#' @seealso \code{\link{bankfull_flow}} to estimate the flow through the cross section using Manning's equation
 #'
 #' @keywords compute flow area
 #' @examples

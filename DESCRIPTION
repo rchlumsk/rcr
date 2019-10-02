@@ -2,12 +2,15 @@ Package: rcr
 Type: Package
 Title: River Computations in R
 Version: 0.2.0
-Author: R. Chlumsky
+Date: 2019-10-01
+Authors@R: c(
+    person("Chlumsky", "Robert", email = "rchlumsk@uwaterloo.ca", role = c("cre","aut")))
 Description: This package has functions to calculate a basic backwater profile for open channels
     using the standard step method. 
     NOTE: package in early development stages, and requires further testing prior to use.
     Any usage is governed under the license below, no warranty provided of any sort.
     Please email rchlumsk@uwaterloo.ca for more any inquiries or suggestions.
+URL: https://github.com/rchlumsk/rcr
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: TRUE

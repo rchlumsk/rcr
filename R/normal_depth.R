@@ -9,7 +9,7 @@
 #' @param options object of class rcr_options with options and constants for hydraulic calculations
 #'
 #' @return \item{WSL}{Water surface elevation}
-#' @seealso \code{\link{bankfull_estimator}} to estimate the flow through the cross section using Manning's equation
+#' @seealso \code{\link{bankfull_flow}} to estimate the flow through the cross section using Manning's equation
 #' @seealso \code{\link{flow_area}} to calculate the flow area in cross-section for given segments
 #'
 #' The Manning's n used in the calculation of the normal depth is calculated as a composite Manning's n,
