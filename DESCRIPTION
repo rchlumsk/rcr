@@ -1,7 +1,7 @@
 Package: rcr
 Type: Package
 Title: River Computations in R
-Version: 0.2.0
+Version: 1.0.0
 Date: 2019-10-01
 Authors@R: c(
     person("Chlumsky", "Robert", email = "rchlumsk@uwaterloo.ca", role = c("cre","aut")))
